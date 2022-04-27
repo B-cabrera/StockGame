@@ -5,7 +5,8 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 
 
 ## TO-DO
-- [ ] Added BUY button.
+- [ ] Add BUY button.
+- [x] Make Player class
 - [ ] Make SELL button, only when user is in trade
 - [ ] Make Stock Line.
 - [ ] Make function when user enters trade.
