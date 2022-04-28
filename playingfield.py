@@ -1,6 +1,7 @@
 import pygame
 from player import Player
 from pygame import font
+from button import Button
 
 
 
@@ -8,18 +9,26 @@ class PlayingField(object):
     
     # Constants for window size
     WINDOW_HEIGHT = 600
-    WINDOW_WIDTH = 1000
+    WINDOW_LENGTH = 1000
 
     def __init__(self):
         pygame.init()
         him = Player()
+        
 
         # Setting up the window 
         self.window  = pygame.display
-        self.surface = self.window.set_mode((self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
+        self.surface = self.window.set_mode((self.WINDOW_LENGTH, self.WINDOW_HEIGHT))
         self.window.set_caption("Brenden Cabrera Stock Game")
 
+
         self.show_starting_balance(him)
+
+
+        # Setting up the button
+        green = (0,200,5)
+        temp_width = 60
+        buy_button = Button(self.surface, 200, (self.WINDOW_HEIGHT - temp_width - 20), 300 , temp_width, "BUY")
 
         # Running Loop
         running = True
@@ -29,6 +38,9 @@ class PlayingField(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+            # Showing the Buy button
+            buy_button.draw(self.window, green)
 
 
 
