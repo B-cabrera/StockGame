@@ -11,3 +11,11 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 - [ ] Make SELL button, only when user is in trade
 - [ ] Make Stock Line.
 - [ ] Make function when user enters trade.
+- [ ] Make Game Over and Win Screen
+
+
+## Ideas
+- Make button in bottom middle, buy button when not in trade and sell button when in trade
+- Have like a "chart" setup for the stock price line, meaning making a section above the button and below the player balance just for the price
+- Use image for button instead of pygame rect ??
+
