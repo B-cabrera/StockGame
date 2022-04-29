@@ -30,19 +30,7 @@ class PlayingField(object):
         self.window.set_caption("Brenden Cabrera Stock Game")
 
         # Initializing the Stock
-        my_stock = Stock("ABCDEFGHIJK", 10000)
-
-        # Showing the Stock on screen
-        top_line = pygame.draw.aaline(self.surface, white, (0,50), (self.WINDOW_LENGTH, 50))
-        bottom_line = pygame.draw.aaline(self.surface, white, (0, self.WINDOW_HEIGHT - 100), (self.WINDOW_LENGTH, self.WINDOW_HEIGHT - 100))
-        stock_font = font.SysFont('timesnewroman', 30)
-        stock_text = stock_font.render(f"{my_stock.tick}: ${my_stock.price}", True, white)
-        self.surface.blit(stock_text, (0, 50))
-
-        self.window.flip()
-
-
-
+        my_stock = Stock("ABCDEFGHIJK", 10000, (self.WINDOW_HEIGHT, self.WINDOW_LENGTH))
 
         self.temp_middle_x = self.WINDOW_LENGTH / 2
 
@@ -64,21 +52,27 @@ class PlayingField(object):
                 if event.type == pygame.QUIT:
                     running = False
 
-            # Showing the Buy button if not in trade
-            if not them.is_in_trade():
-                if buy_button.draw(self.window, green):
-                    them.enter_trade()
-            else:
-                # Setting up Sell button
-                cover_rect = buy_button.get_rect()
-                pygame.draw.rect(self.surface, black, cover_rect)
-                sell_button = Button(self.surface, 0 , 0, 300 , 60, "SELL")
+            # Showing the Stock on screen
+            my_stock.show(self.surface, self.window, white)
 
-                button_rect = sell_button.get_rect()
-                button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - sell_button.wid)
+            if my_stock.open_for_trade:
+                # Showing the Buy button if not in trade, and if user starts the game
+                if not them.is_in_trade():
+                    if buy_button.draw(self.window, green):
+                        them.enter_trade()
+                else:
+                    # Setting up Sell button
+                    cover_rect = buy_button.get_rect()
+                    pygame.draw.rect(self.surface, black, cover_rect)
+                    sell_button = Button(self.surface, 0 , 0, 300 , 60, "SELL")
 
-                if sell_button.draw(self.window, red):
-                    them.exit_trade()
+                    button_rect = sell_button.get_rect()
+                    button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - sell_button.wid)
+
+                    if sell_button.draw(self.window, red):
+                        them.exit_trade()
+
+            
 
         pygame.quit()
 
