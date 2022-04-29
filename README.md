@@ -12,6 +12,7 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 - [ ] Make Stock Line.
 - [ ] Make function when user enters trade.
 - [ ] Make Game Over and Win Screen
+- [ ] Add cursor change when hovering button
 
 
 ## Ideas

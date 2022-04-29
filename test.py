@@ -2,7 +2,7 @@ from playingfield import PlayingField
 
 
 def main():
-    test = PlayingField();
+    test = PlayingField()
 
 main()
 
