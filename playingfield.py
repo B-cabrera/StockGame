@@ -1,3 +1,4 @@
+from tkinter import CENTER
 import pygame
 from player import Player
 from pygame import font
@@ -27,9 +28,8 @@ class PlayingField(object):
 
         # Setting up the button
         green = (0,200,5)
-        temp_width = 60
         self.temp_middle_x = self.WINDOW_LENGTH / 2
-        buy_button = Button(self.surface, 0 , 0, 300 , temp_width, "BUY")
+        buy_button = Button(self.surface, 0 , 0, 300 , 60, "BUY")
         button_rect = buy_button.get_rect()
         button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - buy_button.wid)
 
@@ -63,9 +63,9 @@ class PlayingField(object):
         basicfont = font.SysFont('cambria', 40)
         balance = player.get_balance()
 
-        text = basicfont.render("Balance: " + str(balance), True, white)
+        text = basicfont.render(f"Balance: ${balance}", True, white)
 
-        self.surface.blit(text, (self.temp_middle_x - 130, 0))
+        self.surface.blit(text, text.get_rect(center = (self.surface.get_rect().center[0], 20)))
         self.window.flip()
 
         

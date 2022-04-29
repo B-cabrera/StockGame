@@ -1,10 +1,10 @@
 
 class Player(object):
 
-    STARTING_BALANCE: int = 10000
+    __STARTING_BALANCE: int = 10000
 
     def __init__(self):
-        self.__balance = self.STARTING_BALANCE
+        self.__balance = self.__STARTING_BALANCE
         self.is_broke = False
         self.__in_trade = False
 
