@@ -6,9 +6,9 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 
 ## TO-DO
 - [x] Show Player balance on the screen
-- [ ] Add BUY button.
+- [x] Add BUY button.
 - [x] Make Player class
-- [ ] Make SELL button, only when user is in trade
+- [x] Make SELL button, only when user is in trade
 - [ ] Make Stock Line.
 - [ ] Make function when user enters trade.
 - [ ] Make Game Over and Win Screen
