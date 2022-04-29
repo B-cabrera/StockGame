@@ -34,6 +34,8 @@ class PlayingField(object):
         button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - buy_button.wid)
 
         self.show_starting_balance(him)
+    
+
 
         # Running Loop
         running = True
@@ -45,7 +47,10 @@ class PlayingField(object):
                     running = False
 
             # Showing the Buy button
-            buy_button.draw(self.window, green)
+            if buy_button.draw(self.window, green):
+                print("IN TRADE! HOLY SHIT")
+        
+
 
 
 

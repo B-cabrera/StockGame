@@ -14,9 +14,16 @@ class Button:
         self.surface = sface
         self.text = label
         self.box = Rect(self.x, self.y, self.len, self.wid)
+        self.is_clicked = False
 
+    def draw(self, screen: pygame.display, color: Tuple) -> bool:
 
-    def draw(self, screen: pygame.display, color: Tuple) -> None:
+        # Handling event if button is clicked
+        mouse_pos = pygame.mouse.get_pos()
+
+        if self.box.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0] == True and self.is_clicked  == False:
+                self.is_clicked = True
+                return True
 
         # Making text inside the button
         button_font = font.SysFont('avenir', 30, True)
@@ -29,8 +36,14 @@ class Button:
 
         screen.flip()
 
+
+        
+
     def get_rect(self) -> Rect:
         return self.box
+
+
+
 
         
 
