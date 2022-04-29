@@ -13,20 +13,25 @@ class Button:
         self.wid = wide
         self.surface = sface
         self.text = label
+        self.box = Rect(self.x, self.y, self.len, self.wid)
 
 
     def draw(self, screen: pygame.display, color: Tuple) -> None:
-        box = Rect(self.x, self.y, self.len, self.wid)
-        
+
         # Making text inside the button
         button_font = font.SysFont('avenir', 30, True)
         button_text = button_font.render(self.text, True, (255,255,255))
 
         
         # Showing the text and the button
-        pygame.draw.rect(self.surface, color, box, 0, 20)
-        self.surface.blit(button_text, (self.x + (self.len / 2) - 30 ,  self.y + self.wid / 5))
-        
+        pygame.draw.rect(self.surface, color, self.box, 0, 20)
+        self.surface.blit(button_text, button_text.get_rect(center = self.box.center))
+
         screen.flip()
+
+    def get_rect(self) -> Rect:
+        return self.box
+
+        
 
 

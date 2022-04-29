@@ -22,13 +22,18 @@ class PlayingField(object):
         self.window.set_caption("Brenden Cabrera Stock Game")
 
 
-        self.show_starting_balance(him)
+        
 
 
         # Setting up the button
         green = (0,200,5)
         temp_width = 60
-        buy_button = Button(self.surface, 200, (self.WINDOW_HEIGHT - temp_width - 20), 300 , temp_width, "BUY")
+        self.temp_middle_x = self.WINDOW_LENGTH / 2
+        buy_button = Button(self.surface, 0 , 0, 300 , temp_width, "BUY")
+        button_rect = buy_button.get_rect()
+        button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - buy_button.wid)
+
+        self.show_starting_balance(him)
 
         # Running Loop
         running = True
@@ -60,7 +65,7 @@ class PlayingField(object):
 
         text = basicfont.render("Balance: " + str(balance), True, white)
 
-        self.surface.blit(text, (10,0))
+        self.surface.blit(text, (self.temp_middle_x - 130, 0))
         self.window.flip()
 
         
