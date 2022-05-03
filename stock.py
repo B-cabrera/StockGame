@@ -44,7 +44,7 @@ class Stock:
                 cover_rect.center = space.get_rect().center
                 pygame.draw.rect(space, (0,0,0), cover_rect)
                 self.be_shown = False
-                print("HOLY SHIT WE ARE MOVING THE STOCK")
+                self.show_line(space)
 
             
 
@@ -58,3 +58,7 @@ class Stock:
         if start_button.draw(dplay, (192,192,192)):
             started = True
             return started
+
+
+    def show_line(self, sface: Surface) :
+        pygame.draw.line(sface, (255,0,0), (0,self.temp_constants[0] // 2), (self.temp_constants[1] // 2, self.temp_constants[0] // 2))
