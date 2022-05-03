@@ -9,14 +9,20 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 - [x] Add BUY button.
 - [x] Make Player class
 - [x] Make SELL button, only when user is in trade
-- [ ] Make Stock Line.
+- [x] Make Stock Line.
 - [ ] Make function when user enters trade.
 - [ ] Make Game Over and Win Screen
-- [ ] Add cursor change when hovering button
+- [ ] Chart Setup for Stock Line
+- [ ] Update balance when in trade 
+- [ ] Update stock share price when stock line is moved
+- [ ] Change width of stock line, and length of randomly generated parts
+- [ ] Clean up code and submit
+
 
 
 ## Ideas
-- Make button in bottom middle, buy button when not in trade and sell button when in trade
-- Have like a "chart" setup for the stock price line, meaning making a section above the button and below the player balance just for the price
-- Use image for button instead of pygame rect ??
+- Space bar for entering and exiting trades, instead of button
+    - Add instructions for user, so they know that spacebar has a function
+- Using tick instead of delay to resolve some stock line issues
+- 
 
