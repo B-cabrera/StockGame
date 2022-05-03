@@ -1,5 +1,6 @@
 # Class for stock
 
+from random import randint
 from typing import Tuple
 import pygame
 from pygame import Rect, Surface
@@ -44,7 +45,6 @@ class Stock:
                 cover_rect.center = space.get_rect().center
                 pygame.draw.rect(space, (0,0,0), cover_rect)
                 self.be_shown = False
-                self.show_line(space)
 
             
 
@@ -61,4 +61,7 @@ class Stock:
 
 
     def show_line(self, sface: Surface) :
-        pygame.draw.line(sface, (255,0,0), (0,self.temp_constants[0] // 2), (self.temp_constants[1] // 2, self.temp_constants[0] // 2))
+        print("Drawing line")
+
+
+
