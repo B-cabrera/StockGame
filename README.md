@@ -10,14 +10,15 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 - [x] Make Player class
 - [x] Make SELL button, only when user is in trade
 - [x] Make Stock Line.
-- [ ] Make function when user enters trade.
+- [x] Make function when user enters trade.
+- [x] Chart Setup for Stock Line
+- [x] Update balance when in trade 
+- [x] Update stock share price when stock line is moved
+- [x] Change width of stock line, and length of randomly generated parts
+- [x] Add instructions for user so they know that spacebar controls trading
+- [x] Add instructions on how to win
 - [ ] Make Game Over and Win Screen
-- [ ] Chart Setup for Stock Line
-- [ ] Update balance when in trade 
-- [ ] Update stock share price when stock line is moved
-- [ ] Change width of stock line, and length of randomly generated parts
 - [ ] Clean up code and submit
-
 
 
 ## Ideas
