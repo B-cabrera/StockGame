@@ -39,12 +39,16 @@ class PlayingField(object):
         button_rect = self.buy_button.get_rect()
         button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - self.buy_button.wid)
 
-        self.show_starting_balance(self.them)
+        self.show_balance(self.them)
 
+        # Initial Random Values for Stock Line
         lines = []
         prev_end = (0,self.WINDOW_HEIGHT // 2)
-        next_end = (randint(0, self.WINDOW_LENGTH // 4), randint(100, self.WINDOW_HEIGHT - 110))
-    
+        next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
+
+
+        clock = pygame.time.Clock()
+        clock.tick(10)
 
         # Running Loop
         running = True
@@ -56,11 +60,14 @@ class PlayingField(object):
                     running = False
 
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    if not self.them.is_in_trade():
-                        self.them.enter_trade()
-                    else: 
-                        self.them.exit_trade()
+                    if my_stock.open_for_trade:
+                        if not self.them.is_in_trade():
+                            self.them.enter_trade(change)
+                        else: 
+                            self.them.exit_trade()            
 
+            # Showing instructions
+            self.display_instructions()
 
             # Showing the Stock on screen
             my_stock.show(self.surface, self.window, white)
@@ -69,25 +76,32 @@ class PlayingField(object):
 
                 # Showing stock line 
                 if next_end[0] <= self.WINDOW_LENGTH :
-                    temp_rect = pygame.draw.line(self.surface, (255,255,255), prev_end, next_end)
+                    clock.tick(5)
+
+                    change = prev_end[1] - next_end[1]
+
+                    self.update_stock_price(my_stock, change)
+
+                    if self.them.is_in_trade():
+                        self.update_player_balance(self.them, change * 10)    
+
+                    temp_rect = pygame.draw.line(self.surface, (79, 134, 255), prev_end, next_end, 3)
                     lines.append(temp_rect)
 
-                    pygame.time.delay(500)
+
                     self.window.flip()
 
                     self.show_status()
 
                     prev_end = next_end
-                    next_end = (randint(prev_end[0], self.WINDOW_LENGTH + 5), randint(100, self.WINDOW_HEIGHT - 110))
+                    next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
                 else:
                     for line in lines:
                         pygame.draw.rect(self.surface, (0,0,0), line)
                         self.window.flip()
                 
                     prev_end = (0, next_end[1])
-                    next_end = (randint(0, self.WINDOW_LENGTH // 4), randint(100, self.WINDOW_HEIGHT - 110))
-
-
+                    next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
     
     
         pygame.quit()
@@ -95,7 +109,7 @@ class PlayingField(object):
         
 
 
-    def show_starting_balance(self, player: Player) :
+    def show_balance(self, player: Player) :
         pygame.font.init()
 
         # Setting basic color
@@ -126,7 +140,33 @@ class PlayingField(object):
             sell_button.draw(self.window, self.red)
 
         
+    def display_instructions(self):
+        instructions_font = font.SysFont('cambria', 20)
 
+        instructions_top = instructions_font.render("USE SPACEBAR TO ENTER", True, (255,255,255))
+        instructions_bottom = instructions_font.render("AND EXIT TRADE", True, (255,255,255))
+        instructions_right_top = instructions_font.render("GET 20,000 TO WIN", True, (255,255,255))
+        instructions_right_bottom = instructions_font.render("OR LOSE WHEN YOU'RE BROKE", True, (255,255,255))
+
+        self.surface.blit(instructions_top, (0,0))
+        self.surface.blit(instructions_bottom, (0, 20))
+        self.surface.blit(instructions_right_top, (800,0))
+        self.surface.blit(instructions_right_bottom, (700, 20))
+
+    def update_stock_price(self, stock: Stock, value: int) -> None:
+        
+        pygame.draw.rect(self.surface, (0,0,0), Rect(100, 55, 110, 50))
+        stock.price += value
+        stock.show_price(self.surface)
+
+    def update_player_balance(self, user: Player, cash: int):
+        pygame.draw.rect(self.surface, (0,0,0), Rect(300, 0, 400, 50))
+
+        user.change_balance(cash)
+        self.show_balance(user)
+
+
+        
 
 
 

@@ -16,14 +16,15 @@ class Player(object):
     def is_in_trade(self) -> bool:
         return self.__in_trade
 
-    def enter_trade(self) -> None:
-        print("WE ARE IN A TRADE !")
+    def enter_trade(self, cash: int) -> None:
         self.__in_trade = True
 
 
     def exit_trade(self) -> None:
         self.__in_trade = False
-        print("LEAVING TRADE")
+        
+    def change_balance(self, num: int):
+        self.__balance += num
 
 
     

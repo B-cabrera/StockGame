@@ -33,9 +33,7 @@ class Stock:
             top_line = pygame.draw.aaline(space, color, (0,50), (self.temp_constants[1], 50))
             bottom_line = pygame.draw.aaline(space, color, (0, self.temp_constants[0] - 100), (self.temp_constants[1], self.temp_constants[0] - 100))
 
-            stock_font = font.SysFont('timesnewroman', 30)
-            stock_text = stock_font.render(f"{self.tick}: ${self.price}", True, color)
-            space.blit(stock_text, (0, 50))
+            self.show_price(space)
 
             window.flip()
 
@@ -59,9 +57,13 @@ class Stock:
             started = True
             return started
 
+    def show_price(self, place: Surface) -> Surface:
 
-    def show_line(self, sface: Surface) :
-        print("Drawing line")
+        stock_font = font.SysFont('timesnewroman', 30)
+        stock_text = stock_font.render(f"{self.tick}: ${self.price}", True, (255,255,255))
+        place.blit(stock_text, (0, 50))
+
+        return stock_text
 
 
 
