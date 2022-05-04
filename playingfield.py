@@ -62,7 +62,7 @@ class PlayingField(object):
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     if my_stock.open_for_trade:
                         if not self.them.is_in_trade():
-                            self.them.enter_trade(change)
+                            self.them.enter_trade()
                         else: 
                             self.them.exit_trade()            
 
