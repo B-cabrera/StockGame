@@ -39,7 +39,7 @@ class PlayingField(object):
         button_rect = self.buy_button.get_rect()
         button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - self.buy_button.wid)
 
-        self.show_balance(self.them)
+        self.show_balance()
 
         # Initial Random Values for Stock Line
         lines = []
@@ -64,7 +64,9 @@ class PlayingField(object):
                         if not self.them.is_in_trade():
                             self.them.enter_trade()
                         else: 
-                            self.them.exit_trade()            
+                            self.them.exit_trade()
+
+            running = not self.win_loss_check()                         
 
             # Showing instructions
             self.display_instructions()
@@ -83,7 +85,7 @@ class PlayingField(object):
                     self.update_stock_price(my_stock, change)
 
                     if self.them.is_in_trade():
-                        self.update_player_balance(self.them, change * 10)    
+                        self.update_player_balance(change * 10)    
 
                     temp_rect = pygame.draw.line(self.surface, (79, 134, 255), prev_end, next_end, 3)
                     lines.append(temp_rect)
@@ -109,14 +111,14 @@ class PlayingField(object):
         
 
 
-    def show_balance(self, player: Player) :
+    def show_balance(self) :
         pygame.font.init()
 
         # Setting basic color
         white = (255,255,255)
 
         basicfont = font.SysFont('cambria', 40)
-        balance = player.get_balance()
+        balance = self.them.get_balance()
 
         text = basicfont.render(f"Balance: ${balance}", True, white)
 
@@ -145,7 +147,7 @@ class PlayingField(object):
 
         instructions_top = instructions_font.render("USE SPACEBAR TO ENTER", True, (255,255,255))
         instructions_bottom = instructions_font.render("AND EXIT TRADE", True, (255,255,255))
-        instructions_right_top = instructions_font.render("GET 20,000 TO WIN", True, (255,255,255))
+        instructions_right_top = instructions_font.render("GET 15,000 TO WIN", True, (255,255,255))
         instructions_right_bottom = instructions_font.render("OR LOSE WHEN YOU'RE BROKE", True, (255,255,255))
 
         self.surface.blit(instructions_top, (0,0))
@@ -159,13 +161,19 @@ class PlayingField(object):
         stock.price += value
         stock.show_price(self.surface)
 
-    def update_player_balance(self, user: Player, cash: int):
+    def update_player_balance(self, cash: int):
         pygame.draw.rect(self.surface, (0,0,0), Rect(300, 0, 400, 50))
 
-        user.change_balance(cash)
-        self.show_balance(user)
+        self.them.change_balance(cash)
+        self.show_balance()
 
 
+    def win_loss_check(self) -> bool:
+
+        if self.them.get_balance() >= 15000 or self.them.get_balance() <= 0:
+            return True
+    
+        return False
         
 
 
