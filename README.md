@@ -23,5 +23,7 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 - [x] Clean up code and submit
 
 
-## Ideas
+## How to Play
+
+Download all dependencies and run test.py
 
