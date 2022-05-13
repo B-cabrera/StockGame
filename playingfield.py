@@ -1,4 +1,6 @@
+from pickle import FALSE
 from random import randint
+from typing import List
 import pygame
 from player import Player
 from pygame import Rect, font
@@ -54,19 +56,11 @@ class PlayingField(object):
         running = True
 
         while running:
+            # Checking for win/loss constantly
+            self.win_loss_check(my_stock)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    if my_stock.open_for_trade:
-                        if not self.them.is_in_trade():
-                            self.them.enter_trade()
-                        else: 
-                            self.them.exit_trade()
-
-            running = not self.win_loss_check()                         
+            running = self.listen_for_key(my_stock)
 
             # Showing instructions
             self.display_instructions()
@@ -98,16 +92,12 @@ class PlayingField(object):
                     prev_end = next_end
                     next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
                 else:
-                    for line in lines:
-                        pygame.draw.rect(self.surface, (0,0,0), line)
-                        self.window.flip()
-                
+                    self.clear_lines(lines)
                     prev_end = (0, next_end[1])
                     next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
     
-    
-        pygame.quit()
 
+        pygame.quit()
         
 
 
@@ -168,12 +158,53 @@ class PlayingField(object):
         self.show_balance()
 
 
-    def win_loss_check(self) -> bool:
+    def win_loss_check(self, market: Stock) -> bool:
 
-        if self.them.get_balance() >= 15000 or self.them.get_balance() <= 0:
-            return True
+        if self.them.get_balance() >= 15000:
+            market.open_for_trade = False
+            self.show_win()
+        elif self.them.get_balance() <= 0:
+            market.open_for_trade = False
+            self.show_game_over()
+        
+
     
-        return False
+    def show_game_over(self):
+        pygame.draw.rect(self.surface, (0,0,0), Rect(0,50, self.WINDOW_LENGTH, self.WINDOW_HEIGHT))
+
+        game_over_font = font.SysFont('cambria', 60)
+        game_over_text = game_over_font.render("GAME OVER! YOU LOSE!", True, (255,255,255))
+
+        self.surface.blit(game_over_text, game_over_text.get_rect(center = self.surface.get_rect().center))
+        self.window.flip()
+
+    def show_win(self):
+        pygame.draw.rect(self.surface, (0,0,0), Rect(0,50, self.WINDOW_LENGTH, self.WINDOW_HEIGHT))
+
+        win_font = font.SysFont('cambria', 60)
+        win_text = win_font.render("CONGRATS! YOU WON", True, (255,255,255))
+
+        self.surface.blit(win_text, win_text.get_rect(center = self.surface.get_rect().center))
+        self.window.flip()
+
+    def listen_for_key(self, stck: Stock) -> bool:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                if stck.open_for_trade:
+                    if not self.them.is_in_trade():
+                        self.them.enter_trade()
+                    else: 
+                        self.them.exit_trade() 
+        
+        return True
+
+    def clear_lines(self, lines: List):
+        for line in lines:
+            pygame.draw.rect(self.surface, (0,0,0), line)
+            self.window.flip()
         
 
 
