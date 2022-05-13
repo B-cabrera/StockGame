@@ -34,13 +34,12 @@ class PlayingField(object):
         # Initializing the Stock
         my_stock = Stock("ABCDEFGHIJK", 10000, (self.WINDOW_HEIGHT, self.WINDOW_LENGTH))
 
-        self.temp_middle_x = self.WINDOW_LENGTH / 2
-
         # Setting up Buy button
         self.buy_button = Button(self.surface, 0 , 0, 300 , 60, "BUY")
         button_rect = self.buy_button.get_rect()
         button_rect.center = (self.WINDOW_LENGTH // 2, self.WINDOW_HEIGHT - self.buy_button.wid)
 
+        # Constantly showing player balance
         self.show_balance()
 
         # Initial Random Values for Stock Line
@@ -48,7 +47,7 @@ class PlayingField(object):
         prev_end = (0,self.WINDOW_HEIGHT // 2)
         next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
 
-
+        # Setting initial clock speed
         clock = pygame.time.Clock()
         clock.tick(10)
 
@@ -59,7 +58,7 @@ class PlayingField(object):
             # Checking for win/loss constantly
             self.win_loss_check(my_stock)
 
-
+            # Listening for key presses
             running = self.listen_for_key(my_stock)
 
             # Showing instructions
@@ -78,9 +77,11 @@ class PlayingField(object):
 
                     self.update_stock_price(my_stock, change)
 
+                    # Updating balance if they're in a trade
                     if self.them.is_in_trade():
                         self.update_player_balance(change * 10)    
 
+                    # Rect to cover the stock line sections
                     temp_rect = pygame.draw.line(self.surface, (79, 134, 255), prev_end, next_end, 3)
                     lines.append(temp_rect)
 
@@ -89,9 +90,11 @@ class PlayingField(object):
 
                     self.show_status()
 
+                    # Setting up coordinates for next line sections
                     prev_end = next_end
                     next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
                 else:
+                    # Clearing lines on screen and restarting at left side of window
                     self.clear_lines(lines)
                     prev_end = (0, next_end[1])
                     next_end = (prev_end[0] + 20, randint(100, self.WINDOW_HEIGHT - 110))
@@ -100,7 +103,7 @@ class PlayingField(object):
         pygame.quit()
         
 
-
+    # Displaying player's current balance with format: Balance: $Player-Balance
     def show_balance(self) :
         pygame.font.init()
 
@@ -116,6 +119,7 @@ class PlayingField(object):
         self.window.flip()
 
 
+    # Showing Buy or Sell at the bottom of the screen, depending on trade status
     def show_status(self):
         if not self.them.is_in_trade():
             self.buy_button.draw(self.window, self.green)
@@ -131,33 +135,37 @@ class PlayingField(object):
 
             sell_button.draw(self.window, self.red)
 
-        
+    # Showing the game instructions at the top of the screen
     def display_instructions(self):
         instructions_font = font.SysFont('cambria', 20)
 
+        # Rendering all text
         instructions_top = instructions_font.render("USE SPACEBAR TO ENTER", True, (255,255,255))
         instructions_bottom = instructions_font.render("AND EXIT TRADE", True, (255,255,255))
         instructions_right_top = instructions_font.render("GET 15,000 TO WIN", True, (255,255,255))
         instructions_right_bottom = instructions_font.render("OR LOSE WHEN YOU'RE BROKE", True, (255,255,255))
 
+        # Display all text
         self.surface.blit(instructions_top, (0,0))
         self.surface.blit(instructions_bottom, (0, 20))
         self.surface.blit(instructions_right_top, (800,0))
         self.surface.blit(instructions_right_bottom, (700, 20))
 
+    # Changing stock price after a change, then showing it
     def update_stock_price(self, stock: Stock, value: int) -> None:
         
         pygame.draw.rect(self.surface, (0,0,0), Rect(100, 55, 110, 50))
         stock.price += value
         stock.show_price(self.surface)
 
+    # Changing player balance after a change, then showing it
     def update_player_balance(self, cash: int):
         pygame.draw.rect(self.surface, (0,0,0), Rect(300, 0, 400, 50))
 
         self.them.change_balance(cash)
         self.show_balance()
 
-
+    # Checking for win or loss
     def win_loss_check(self, market: Stock) -> bool:
 
         if self.them.get_balance() >= 15000:
@@ -167,8 +175,7 @@ class PlayingField(object):
             market.open_for_trade = False
             self.show_game_over()
         
-
-    
+    # Displaying the game over screen
     def show_game_over(self):
         pygame.draw.rect(self.surface, (0,0,0), Rect(0,50, self.WINDOW_LENGTH, self.WINDOW_HEIGHT))
 
@@ -178,6 +185,7 @@ class PlayingField(object):
         self.surface.blit(game_over_text, game_over_text.get_rect(center = self.surface.get_rect().center))
         self.window.flip()
 
+    # Displaying the win screen
     def show_win(self):
         pygame.draw.rect(self.surface, (0,0,0), Rect(0,50, self.WINDOW_LENGTH, self.WINDOW_HEIGHT))
 
@@ -187,6 +195,7 @@ class PlayingField(object):
         self.surface.blit(win_text, win_text.get_rect(center = self.surface.get_rect().center))
         self.window.flip()
 
+    # Listening for certain key presses
     def listen_for_key(self, stck: Stock) -> bool:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -201,6 +210,7 @@ class PlayingField(object):
         
         return True
 
+    # Drawing rects that match background over the line sections
     def clear_lines(self, lines: List):
         for line in lines:
             pygame.draw.rect(self.surface, (0,0,0), line)
