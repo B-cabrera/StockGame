@@ -17,13 +17,11 @@ My goal is make a Stock Game where there is a stock line in the screen that is c
 - [x] Change width of stock line, and length of randomly generated parts
 - [x] Add instructions for user so they know that spacebar controls trading
 - [x] Add instructions on how to win
-- [ ] Make Game Over and Win Screen
-- [ ] Clean up code and submit
+- [x] Using tick instead of delay to resolve some stock line issues
+- [x] Space bar for entering and exiting trades, instead of button
+- [x] Make Game Over and Win Screen
+- [x] Clean up code and submit
 
 
 ## Ideas
-- Space bar for entering and exiting trades, instead of button
-    - Add instructions for user, so they know that spacebar has a function
-- Using tick instead of delay to resolve some stock line issues
-- 
 
